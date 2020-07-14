@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> talk </title>
+<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+<script>
+function start(){
+sjs.open();
+
+var menu_text = new sjs.Text("The Talk",28,"blue");
+menu_text.centerH();
+
+var game_text = new sjs.Text("I am soloman the monster lord. You are just a lousy human. Do you really want to fight me? If you do then say your last goodbyes!",28,"#ff0");
+game_text.centerH().offset(0, 30);
+
+var startBtn = new sjs.Button("Fight", function(){
+window.location = "bb.html";
+});
+
+startBtn.center();
+
+
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Talk </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>

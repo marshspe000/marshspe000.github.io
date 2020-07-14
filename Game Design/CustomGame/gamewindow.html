@@ -1,0 +1,178 @@
+<html>
+<head>
+<title> Dungeon Quest </title>
+<script src="https://simplycodingcourses.com/files/simply.js"></script>
+<script>
+function start(){
+sjs.open("target",800,500);
+var background = new sjs.Image("Images/background.png");
+background.setSize(825, 500);
+
+//Player
+var player = new sjs.Image("Images/player.png");
+player.type = "player";
+player.setSize(85,93);
+player.bottom();
+player.friction = .3;
+
+
+//Player movement and fighting controls
+sjs.keyDown(RIGHT_KEY, function(){
+player.pushRight();
+});
+
+sjs.keyDown(LEFT_KEY, function(){
+player.pushLeft();
+});
+
+sjs.keyDown(UP_KEY, function(){
+player.pushUp();
+});
+
+sjs.keyDown(DOWN_KEY, function(){
+player.pushDown();
+});
+
+
+sjs.keyDown(SPACE_KEY, function(){
+laser.type = "laser";
+laser.setSize(100,50);
+laser.friction= 0;
+laser.noBounds= true;
+if(r_facing == true){
+laser.moveTo(player.getX()+44,player.getY()+7);
+laser.pushRight(.5);
+} else {
+laser.moveTo(player.getX()+-60,player.getY()+7);
+laser.pushLeft(.5);
+}
+setTimeout(function(){
+canShoot = true;
+},1500);
+}); //end keyDown function DOWN_KEY
+
+
+//Enemies
+setInterval(function(){
+var speed = Math.round(1 + Math.random()*2);
+if(Math.random() > 0.5){
+var enemy = new sjs.Image("Images/Orcs.png");
+enemy.type = "enemy";
+enemy.setSize(85,93);
+enemy.noBounds = true;
+enemy.friction = 0;
+enemy.pushRight(speed);
+enemy.moveTo(-enemy.getWidth(), Math.random()*(enemy.getClamp().y));
+}   else  {
+	var enemy = new sjs.Image("Images/mummy.png");
+	enemy.type = "enemy";
+enemy.setSize(85,93);
+enemy.noBounds = true;
+enemy.friction = 0;
+enemy.pushLeft(speed);
+enemy.moveTo(sjs.getWidth(), Math.random()*(enemy.getClamp().y));
+
+}
+
+},3000);
+
+
+
+//Enemies
+setInterval(function(){
+var speed = Math.round(1 + Math.random()*2);
+if(Math.random() > 0.5){
+var enemy = new sjs.Image("Images/mage.png");
+enemy.type = "enemy";
+enemy.setSize(85,93);
+enemy.noBounds = true;
+enemy.friction = 0;
+enemy.pushRight(speed);
+enemy.moveTo(-enemy.getWidth(), Math.random()*(enemy.getClamp().y));
+}   else  {
+	var enemy = new sjs.Image("Images/zombie.png");
+	enemy.type = "enemy";
+enemy.setSize(85,93);
+enemy.noBounds = true;
+enemy.friction = 0;
+enemy.pushLeft(speed);
+enemy.moveTo(sjs.getWidth(), Math.random()*(enemy.getClamp().y));
+
+}
+
+},3000);
+
+
+
+
+sjs.left_screen.offset(-500);
+sjs.right_screen.offset(500);
+
+
+
+//Weapon
+sjs.keyDown(D_KEY, function(){
+canShoot = false;
+var laser = new sjs.Image("Images/laser.png");
+laser.type = "laser";
+laser.setSize(100,50);
+laser.friction= 0;
+laser.noBounds= true;
+laser.moveTo(player.getX()+44,player.getY()+7);
+laser.pushRight(25.5);
+}); //end keyDown function DOWN_KEY
+
+
+//Weapon left
+sjs.keyDown(A_KEY, function(){
+canShoot = false;
+var laser = new sjs.Image("Images/laser.png");
+laser.type = "laser";
+laser.setSize(100,50);
+laser.friction= 0;
+laser.noBounds= true;
+laser.moveTo(player.getX()+33,player.getY()+5);
+laser.pushLeft(25.5);
+}); //end keyDown function DOWN_KEY
+
+
+//Score
+var score = 0;
+var score_txt = new sjs.Text("Score: 0", 21, "orange");
+
+
+
+sjs.onHit("enemy",["right_screen","left_screen"], function(x,y){
+x.destroy();
+});
+
+sjs.onHit("player","enemy", function(x,y){
+x.destroy();
+window.location = "gameover.html";
+});
+
+
+sjs.onHit("laser","enemy", function(x,y){
+		score = score + 1;
+score_txt.setText("Score: "+score);
+localStorage.setItem("score", score)
+if(score >= 20){
+window.location = "bossindex.html";
+}
+x.destroy();
+y.destroy();
+});
+
+
+
+
+
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Dungeon Quest </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>

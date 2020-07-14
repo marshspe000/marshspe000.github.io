@@ -1,0 +1,105 @@
+<html>
+<head>
+<title> Dungeon Quest </title>
+<script src="https://simplycodingcourses.com/files/simply.js"></script>
+<script>
+function start(){
+sjs.open("target",800,500);
+var background = new sjs.Image("Images/bbattle.png");
+background.setSize(1000, 1000);
+
+//Player
+var player = new sjs.Image("Images/player.png");
+player.type = "player";
+player.setSize(85,93);
+player.center().offset(103, 200);
+player.friction = .3;
+sjs.scrollable(player,background);
+
+//Player movement and fighting controls
+sjs.keyDown(RIGHT_KEY, function(){
+player.pushRight();
+});
+
+sjs.keyDown(LEFT_KEY, function(){
+player.pushLeft();
+});
+
+sjs.keyDown(UP_KEY, function(){
+player.pushUp();
+});
+
+sjs.keyDown(DOWN_KEY, function(){
+player.pushDown();
+});
+
+
+//Weapon
+sjs.keyDown(D_KEY, function(){
+canShoot = false;
+var laser = new sjs.Image("Images/laser.png");
+laser.type = "laser";
+laser.setSize(100,50);
+laser.friction= 0;
+laser.noBounds= true;
+laser.moveTo(player.getX()+44,player.getY()+7);
+laser.pushRight(25.5);
+}); //end keyDown function DOWN_KEY
+
+
+//Weapon left
+sjs.keyDown(A_KEY, function(){
+canShoot = false;
+var laser = new sjs.Image("Images/laser.png");
+laser.type = "laser";
+laser.setSize(100,50);
+laser.friction= 0;
+laser.noBounds= true;
+laser.moveTo(player.getX()+33,player.getY()+5);
+laser.pushLeft(25.5);
+}); //end keyDown function DOWN_KEY
+
+
+//SOLOMAN BOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS!!!!!!!!!!!!!!!!!!!!!!!!!!
+var soloman = new sjs.Image("Images/soloman.png");
+soloman.type = "soloman";
+soloman.setSize(170,186);
+soloman.center().offset(103, -100);
+soloman.friction = 0;
+soloman.bounce();
+sjs.scrollable(soloman,background);
+soloman.pushUp(10);
+soloman.pushRight(5);
+
+//Score secretly boss life
+var score = 0;
+var score_txt = new sjs.Text("Score: 0", 21, "orange");
+
+sjs.onHit("player","soloman", function(x,y){
+x.destroy();
+window.location = "bossindex.html";
+});
+
+sjs.onHit("laser","soloman", function(x,y){
+			score = score + 1;
+score_txt.setText("Score: "+score);
+localStorage.setItem("score", score)
+if(score >= 100000000000000){
+window.location = "winfile.html";
+x.destroy();
+y.destroy();
+}
+});
+
+
+
+
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Dungeon Quest </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>

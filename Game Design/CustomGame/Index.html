@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Menu </title>
+<script src="https://simplycodingcourses.com/files/simplyjs/simply.js"></script>
+<script>
+function start(){
+sjs.open();
+
+var menu_text = new sjs.Text("MENU",28,"blue");
+menu_text.centerH();
+
+var game_text = new sjs.Text("Use the Arrow Keys to Control the human. A and D are attacks. Don't let the monsters kill you!",28,"#ff0");
+game_text.centerH().offset(0, 30);
+
+var startBtn = new sjs.Button("Start", function(){
+window.location = "gamewindow.html";
+});
+
+startBtn.center();
+
+var info_text = new sjs.Text("Created By Spencer Marsh",20,"black");
+
+info_text.bottom().centerH();
+
+} //end start
+</script>
+</head>
+<body onload="start()">
+<h1> Menu </h1>
+
+<div id="target" style="margin:auto;background:grey;"></div>
+</body>
+</html>
